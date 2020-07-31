@@ -2,6 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 
+//public key so firebase knows to look for this project
 const config = {
   apiKey: "AIzaSyD3z3qFzlQ54DUWk8JuVmZB0iY9F6H4jXI",
   authDomain: "crwn-db-38b37.firebaseapp.com",
@@ -15,12 +16,15 @@ const config = {
 
 firebase.initializeApp(config)
 
+//methods provided by firebase
 export const auth = firebase.auth()
 export const firestore = firebase.firestore()
 
+//use google as auth of choice
 const provider = new firebase.auth.GoogleAuthProvider()
 provider.setCustomParameters({ prompt: 'select_account' })
 
+//pop up window lets user choose which account to sign in as
 export const signInWithGoogle = () => auth.signInWithPopup(provider)
 
 export default firebase
