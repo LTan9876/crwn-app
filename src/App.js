@@ -35,7 +35,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header />
+        {/* passed in state so header component is aware if user is signed in or out */}
+        <Header currentUser = {this.state.currentUser}/>
         <Switch>
           <Route exact path = '/' component = {HomePage} />
           <Route exact path = '/shop' component = {ShopPage} />
