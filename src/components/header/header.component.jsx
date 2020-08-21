@@ -5,6 +5,7 @@ import './header.styles.scss'
 import { ReactComponent as Logo } from '../../assets/crown.svg'
 import { connect } from 'react-redux'
 import CartIcon from '../cart-icon/cart-icon.component'
+import CartDropdown from '../cart-dropdown/cart-dropdown.component'
 
 const Header = ({ currentUser }) => (
   <div className = 'header'>
@@ -14,10 +15,8 @@ const Header = ({ currentUser }) => (
     <div className = 'options'>
       <Link className = 'option' to = '/shop'> Shop</Link>
       <Link className = 'option' to = '/shop'> Contact</Link>
-
       {/* ternary to decide to render sign in or sign out */}
       {/* sign out is taken care of by firebase */}
-
       {
         currentUser ?
         <div className = 'option' onClick = {() => auth.signOut()}>Sign Out</div>
@@ -26,6 +25,7 @@ const Header = ({ currentUser }) => (
       }
       <CartIcon/>
     </div>
+    <CartDropdown/>
   </div>
 )
 
