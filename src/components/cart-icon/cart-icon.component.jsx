@@ -3,6 +3,7 @@ import { ReactComponent as ShoppingIcon} from '../../assets/shopping-bag.svg'
 import './cart-icon.styles.scss'
 import { connect } from 'react-redux'
 import { toggleCartHidden } from '../../redux/cart/cart.actions'
+import { selectCartItemsCount } from '../../redux/cart/cart.selector'
 
 const CartIcon = ({ toggleCartHidden, itemCount }) => (
   <div className = 'cart-icon' onClick = {toggleCartHidden}>
@@ -16,10 +17,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 //selector, gets whole state but pulls off small chunk (cart, cartItem)
-//always being called, becaues state is always a new object, data inside new object will be new
-const mapStateToProps = ({ cart: {cartItem} }) => ({
-  itemCount: cartItems.reduce((accumulatedQuantity, cartItem) =>
-   accumulatedQuantity + cartItem.quantity, 0)
+const mapStateToProps = (state) => ({
+  itemCount: selectCartItemsCount(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartIcon)
