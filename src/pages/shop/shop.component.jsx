@@ -5,17 +5,27 @@ import CollectionPage from '../collection/collection.component'
 import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils'
 import { connect } from 'react-redux'
 import { updateCollections } from '../../redux/shop/shop.actions'
+import WithSpinner from '../../components/with-spinner/with-spinner.component'
+
+const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview)
+const CollectionPageWithSpinner = WithSpinner(CollectionPage)
 
 class ShopPage extends React.Component {
+  //under the hood, uses super constructor
+  state = {
+    loading: true
+  }
+
   unsubscribeFromSnapshot = null
 
   componentDidMount() {
     const { updateCollections } = this.props
-
+    const { loading } = this.state
     const collectionRef = firestore.collection('collections')
     this.unsubscribeFromSnapshot = collectionRef.onSnapshot(async snapshot => {
       const collectionsMap = convertCollectionsSnapshotToMap(snapshot)
       updateCollections(collectionsMap)
+      this.setState({loading:false})
     })
   }
 
@@ -24,9 +34,12 @@ class ShopPage extends React.Component {
     return (
     <div className = 'shop-page'>
     {/* match is from history, want to display path current on */}
-    <Route exact path = {`${match.path}`} component = {CollectionsOverview} />
+    {/* passes in destructured loading so can decide which view to render */}
+    <Route exact path = {`${match.path}`} 
+    render = {(props) => <CollectionsOverviewWithSpinner isLoading = {loading} {...props}/>} />
     {/* putting in the collection ID as a param in path */}
-    <Route path = {`${match.path}/:collectionId`} component = {CollectionPage}/>
+    <Route path = {`${match.path}/:collectionId`} 
+    render = {(props) => <CollectionPageWithSpinner isLoading = {loading} {...props}/>}/>
   </div>
     )
   }
