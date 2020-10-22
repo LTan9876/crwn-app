@@ -1,4 +1,4 @@
-import { takeEvery, call, put } from 'redux-saga/effects'
+import { takeLatest, call, put } from 'redux-saga/effects'
 import ShopActionTypes from './shop.types'
 import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils'
 import { fetchCollectionsSuccess, fetchCollectionsFailure } from './shop.actions'
@@ -26,9 +26,8 @@ export function* fetchCollectionsAsync() {
 //pauses when action types are in
 //second param is another generator, runs in response to takeEvery listener (first param)
 export function* fetchCollectionsStart() {
-    //take every listens for every event passed into it
-    //creates non blocking call
-    yield takeEvery(
+    //takeEvery listens for every event passed into it
+    yield takeLatest(
         ShopActionTypes.FETCH_COLLECTIONS_START, 
         fetchCollectionsAsync)
 }
