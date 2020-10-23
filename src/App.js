@@ -20,27 +20,26 @@ class App extends React.Component {
     const {setCurrentUser} = this.props
     //method in firebase auth library
     //open msg system between app and firebase, sends msg if user has updated
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = createUserProfileDocument(userAuth)
+    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    //   if (userAuth) {
+    //     const userRef = createUserProfileDocument(userAuth)
 
         //from the documentRef obj, allows to check if doc exists because of .exist property
         //can get other properties on object with .data() method, returns JSON obj of document
-        userRef.onSnapshot(snapShot => {
-          setCurrentUser({
-            currentUser: {
-              id: snapShot.id,
-              ...snapShot.data()
-            }
-          })
-        })
+        // userRef.onSnapshot(snapShot => {
+        //   setCurrentUser({
+        //     currentUser: {
+        //       id: snapShot.id,
+        //       ...snapShot.data()
+        //     }
+        //   })
+        // })
+
+        //if userAuth is null, set currentUser to userAuth,
+        //same null value
+        // setCurrentUser(userAuth)
+        // addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({title, items})))
       }
-      //if userAuth is null, set currentUser to userAuth,
-      //same null value
-      setCurrentUser(userAuth)
-      addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({title, items})))
-    })
-  }
 
   componentWillUnmount() {
     //close open connection to prevent memory leaks
