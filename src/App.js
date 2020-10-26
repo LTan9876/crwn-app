@@ -17,7 +17,7 @@ class App extends React.Component {
   unsubscribeFromAuth = null
 
   componentDidMount() {
-    const {setCurrentUser} = this.props
+    // const {setCurrentUser} = this.props
     //method in firebase auth library
     //open msg system between app and firebase, sends msg if user has updated
     // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -66,8 +66,8 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
-})
+// const mapDispatchToProps = (dispatch) => ({
+//   setCurrentUser: user => dispatch(setCurrentUser(user))
+// })
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps)(App)
