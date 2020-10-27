@@ -7,7 +7,7 @@ import SignInAndSignOutPage from './pages/sign-in-and-sign-up/sign-in-and-sign-u
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 import { connect } from 'react-redux'
-import { setCurrentUser } from './redux/user/user.actions'
+import { checkUserSession } from './redux/user/user.actions'
 import { selectCurrentUser } from './redux/user/user.selector'
 import { createStructuredSelector } from 'reselect'
 import { CheckoutPage } from './pages/checkout/checkout.component'
@@ -17,6 +17,8 @@ class App extends React.Component {
   unsubscribeFromAuth = null
 
   componentDidMount() {
+    const { checkUserSession } = this.props
+    checkUserSession()
     // const {setCurrentUser} = this.props
     //method in firebase auth library
     //open msg system between app and firebase, sends msg if user has updated
@@ -66,8 +68,8 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
 })
 
-// const mapDispatchToProps = (dispatch) => ({
-//   setCurrentUser: user => dispatch(setCurrentUser(user))
-// })
+const mapDispatchToProps = (dispatch) => ({
+  checkUserSession: () => dispatch(checkUserSession())
+})
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)
