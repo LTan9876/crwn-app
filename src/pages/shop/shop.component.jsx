@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CollectionsOverview from '../../components/collections-overview/collections-overview.component'
 import { Route } from 'react-router-dom'
 import CollectionPage from '../collection/collection.component'
@@ -14,12 +14,16 @@ import CollectionPageContainer from '../collection/collection.container'
 const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview)
 const CollectionPageWithSpinner = WithSpinner(CollectionPage)
 
-class ShopPage extends React.Component {
+const ShopPage = ({ fetchCollectionsStart, match }) => {
+  useEffect(() => {
+    fetchCollectionsStart()
+  }, [fetchCollectionsStart])
+
   // unsubscribeFromSnapshot = null
 
-  componentDidMount() {
-    const { fetchCollectionsStart } = this.props
-    fetchCollectionsStart()
+  // componentDidMount() {
+  //   const { fetchCollectionsStart } = this.props
+  //   fetchCollectionsStart()
 
     // const { updateCollections } = this.props
     // const collectionRef = firestore.collection('collections')
@@ -41,10 +45,10 @@ class ShopPage extends React.Component {
     //   updateCollections(collectionsMap)
     //   this.setState({loading:false})
     // })
-  }
+  // }
 
-  render() {
-    const { match } = this.props
+  
+    // const { match } = this.props
     return (
     <div className = 'shop-page'>
     {/* match is from history, want to display path current on */}
@@ -58,7 +62,7 @@ class ShopPage extends React.Component {
     />
   </div>
     )
-  }
+  
 }   
 
 const mapDispatchToProps = dispatch => ({

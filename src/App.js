@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import HomePage from './pages/homepage/homepage.component'
 import ShopPage from './pages/shop/shop.component'
@@ -12,13 +12,12 @@ import { selectCurrentUser } from './redux/user/user.selector'
 import { createStructuredSelector } from 'reselect'
 import { CheckoutPage } from './pages/checkout/checkout.component'
 
-class App extends React.Component {
+const App = ({ checkUserSession, currentUser }) => {
+  // unsubscribeFromAuth = null
 
-  unsubscribeFromAuth = null
-
-  componentDidMount() {
-    const { checkUserSession } = this.props
-    checkUserSession()
+  // componentDidMount() {
+  //   const { checkUserSession } = this.props
+  //   checkUserSession()
     // const {setCurrentUser} = this.props
     //method in firebase auth library
     //open msg system between app and firebase, sends msg if user has updated
@@ -41,14 +40,20 @@ class App extends React.Component {
         //same null value
         // setCurrentUser(userAuth)
         // addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({title, items})))
-      }
+      // }
 
-  componentWillUnmount() {
-    //close open connection to prevent memory leaks
-    this.unsubscribeFromAuth()
-  }
+  // componentWillUnmount() {
+  //   close open connection to prevent memory leaks
+  //   this.unsubscribeFromAuth()
+  // }
 
-  render() {
+  //acts like componentDidMount
+  //pass checkUserSession into dependency array to get rid of warning
+  //can do this because checkUserSession is passed in as props
+  useEffect(() => {
+    checkUserSession()
+  }, [checkUserSession])
+
     return (
       <div>
         {/* passed in state so header component is aware if user is signed in or out */}
@@ -56,13 +61,13 @@ class App extends React.Component {
         <Switch>
           <Route exact path = '/' component = {HomePage} />
           <Route exact path = '/shop' component = {ShopPage} />
-          <Route exact path = '/signin' render = {() => this.props.currentUser ? (<Redirect to= '/' />) : (<SignInAndSignOutPage/>)} />
+          <Route exact path = '/signin' render = {() => currentUser ? (<Redirect to= '/' />) : (<SignInAndSignOutPage/>)} />
           <Route exact page = '/checkout' component = {CheckoutPage} />
         </Switch>
       </div>
     )
   }
-}
+
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
